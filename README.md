@@ -1,16 +1,29 @@
-# BotDevelopmentFramework
+# Honkai3AbyssUploader
 
 ## 介绍
-CQ机器人开发白框架
+崩坏三深渊战场共享播报机，由于缺少获取深渊战场的API，并且操作崩坏三主程序后截图并不是一个很好的解决方案，所以想出了这个共同上传共同受益的方案。
 
-## 使用流程
-1. Clone项目
-2. 使用`VSCode`打开项目目录
-3. 全局替换文本 `me.cqp.luohuaming.AbyssUploader.` 到 `me.cqp.luohuaming.需要的插件英文.`
-4. 全局替换文本 `AbyssUploader.` 到 `需要的插件英文.`
-4. 全局替换文本 `me.cqp.luohuaming.AbyssUploader.PublicInfo` 到 `me.cqp.luohuaming.需要的插件英文.me.cqp.luohuaming.AbyssUploader.PublicInfo`
-5. 重命名文件夹 `me.cqp.luohuaming.AbyssUploader.Core` `me.cqp.luohuaming.AbyssUploader.Sdk` `me.cqp.luohuaming.AbyssUploader.Tool` 的 `me.cqp.luohuaming.AbyssUploader.` 到 `me.cqp.luohuaming.需要的插件英文`
-6. 进入这些文件夹, 对其中的 `me.cqp.luohuaming.AbyssUploader.Core.csporj`等文件 的 `me.cqp.luohuaming.AbyssUploader.` 进行同理替换
-8. 对Core项目的属性-程序集名称进行替换
-7. 使用`VS2019`打开项目
-8. 所有项目的引用重新引用一遍
+总体思路就是大家的Bot去连接一个中心服务器，当有一个人提供本期深渊或战场截图时，便广播到所有连接到服务器的Bot上
+
+## 特性
+- 一期深渊或战场只广播第一个发送的人
+- 可以多次上传同一期深渊战场，后续查询时将随机发送一份
+
+## 指令
+- 深渊快报：查询当期深渊
+- 战场快报：查询当期战场
+- 上传深渊快报：上传当期深渊信息
+- 上传战场快报：上传当期战场信息
+
+## 问题
+由于性质类似公共留言板，不可避免会出现有人想要发送不合适的消息，由于本服务现在是试行阶段，没有对应的规制手段，希望使用本服务的大家能够只上传游戏内截图
+
+## 兼容性
+如果你并不想使用CQ插件，也可以自己写一个插件。连接原理就是WebSocket，包体足够简单，看着代码就能很快搓一个出来。如果有需要详细的通信协议的请留言，我会考虑写一份出来的。
+
+## 画的饼
+- [ ] 审核
+- [ ] 拉黑群
+- [ ] 举报
+- [ ] 查询历史记录
+- [ ] 贡献排行榜
