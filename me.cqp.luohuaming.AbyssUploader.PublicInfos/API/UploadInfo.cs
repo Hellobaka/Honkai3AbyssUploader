@@ -1,6 +1,4 @@
-﻿using me.cqp.luohuaming.AbyssUploader.Sdk.Cqp.Model;
-using System;
-using System.Xml.Linq;
+﻿using System;
 
 namespace me.cqp.luohuaming.AbyssUploader.PublicInfos.API
 {
@@ -29,7 +27,7 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos.API
             return ClientMessageHandler.WaitResult(token);
         }
 
-        public static APIResult UploadAbyssInfo(string base64, string name)
+        public static APIResult UploadAbyssInfo(string base64, string name, long qq)
         {
             string token = Guid.NewGuid().ToString();
             APIResult request = new APIResult
@@ -41,12 +39,13 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos.API
                     UploaderName = name,
                     UploadTime = DateTime.Now,
                     PicBase64 = base64,
-                }
+                    Uploader = qq
+                }.ToJson()
             };
             MainSave.WebSocketClient.Send(request.ToJson());
             return ClientMessageHandler.WaitResult(token);
         }
-        public static APIResult UploadMemoryField(string base64, string name)
+        public static APIResult UploadMemoryField(string base64, string name, long qq)
         {
             string token = Guid.NewGuid().ToString();
             APIResult request = new APIResult
@@ -58,7 +57,8 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos.API
                     UploaderName = name,
                     UploadTime = DateTime.Now,
                     PicBase64 = base64,
-                }
+                    Uploader = qq
+                }.ToJson()
             };
             MainSave.WebSocketClient.Send(request.ToJson());
             return ClientMessageHandler.WaitResult(token);

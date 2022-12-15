@@ -50,7 +50,7 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
             DelayUploadList.Remove((e.FromGroup, e.FromQQ));
             string imgPath = e.CQApi.ReceiveImage(img);
             string nickName = e.FromGroup.GetGroupMemberInfo(e.FromQQ).Nick;
-            var apiResult = UploadInfo.UploadMemoryField(Convert.ToBase64String(File.ReadAllBytes(imgPath)), nickName);
+            var apiResult = UploadInfo.UploadMemoryField(Convert.ToBase64String(File.ReadAllBytes(imgPath)), nickName, e.FromQQ.Id);
             if (apiResult.IsSuccess)
             {
                 e.FromGroup.SendGroupMessage("上传成功，感谢你的贡献");

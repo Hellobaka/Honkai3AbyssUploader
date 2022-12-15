@@ -46,6 +46,7 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
         private static void WebSocketClient_OnOpen(object sender, System.EventArgs e)
         {
             CQLog.Info("消息服务器连接", $"已连接到消息服务器: {Config.WebSocketURL}");
+            WebSocketClient.Send(new { Type = "Auth", Data = CQApi.GetLoginQQ().Id }.ToJson());
             new Thread(() =>
             {
                 CQLog.Info("心跳线程", $"开始心跳线程，延时 {Config.HeartBeatTimeout}ms");
@@ -61,7 +62,7 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
                         Thread.Sleep(100);
                     }
                     if (flag) break;
-                    WebSocketClient.Send("#HEARTBEAT#");
+                    WebSocketClient.Send(new { Type="Heartbeat" }.ToJson());
                 }
             }).Start();
         }

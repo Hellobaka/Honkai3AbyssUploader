@@ -21,21 +21,30 @@ namespace me.cqp.luohuaming.AbyssUploader.Code
             MainSave.CQLog = e.CQLog;
             MainSave.ImageDirectory = CommonHelper.GetAppImageDirectory();
             ConfigHelper.ConfigFileName = Path.Combine(MainSave.AppDirectory, "Config.json");
-            foreach (var item in Assembly.GetAssembly(typeof(Event_GroupMessage)).GetTypes())
+            try
             {
-                if (item.IsInterface)
-                    continue;
-                foreach (var instance in item.GetInterfaces())
+                foreach (var item in Assembly.GetAssembly(typeof(Event_GroupMessage)).GetTypes())
                 {
-                    if (instance == typeof(IOrderModel))
+                    if (item.IsInterface)
+                        continue;
+                    foreach (var instance in item.GetInterfaces())
                     {
-                        IOrderModel obj = (IOrderModel)Activator.CreateInstance(item);
-                        if (obj.ImplementFlag == false)
-                            break;
-                        MainSave.Instances.Add(obj);
+                        if (instance == typeof(IOrderModel))
+                        {
+                            IOrderModel obj = (IOrderModel)Activator.CreateInstance(item);
+                            if (obj.ImplementFlag == false)
+                                break;
+                            MainSave.Instances.Add(obj);
+                        }
                     }
                 }
+                ConfigHelper.InitConfig();
+                MainSave.InitClient();
             }
+            catch(Exception exc)
+            {
+                MainSave.CQLog.Info("‘ÿ»Î≥ˆ¥Ì", exc.Message + exc.StackTrace);
+            }           
         }
     }
 }

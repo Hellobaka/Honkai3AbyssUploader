@@ -13,7 +13,7 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
         public static List<(long, long)> DelayUploadList { get; set; } = new List<(long, long)>();
         public bool ImplementFlag { get; set; } = true;
 
-        public string GetOrderStr() => "上传战场快报";
+        public string GetOrderStr() => "上传深渊快报";
 
         public bool Judge(string destStr) => destStr.Replace("＃", "#").StartsWith(GetOrderStr());
 
@@ -63,7 +63,7 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
             DelayUploadList.Remove((e.FromGroup, e.FromQQ));
             string imgPath = e.CQApi.ReceiveImage(img);
             string nickName = e.FromGroup.GetGroupMemberInfo(e.FromQQ).Nick;
-            var apiResult = UploadInfo.UploadAbyssInfo(Convert.ToBase64String(File.ReadAllBytes(imgPath)), nickName);
+            var apiResult = UploadInfo.UploadAbyssInfo(Convert.ToBase64String(File.ReadAllBytes(imgPath)), nickName, e.FromQQ.Id);
             if (apiResult.IsSuccess)
             {
                 e.FromGroup.SendGroupMessage("上传成功，感谢你的贡献");

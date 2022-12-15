@@ -4,6 +4,7 @@ using me.cqp.luohuaming.AbyssUploader.Sdk.Cqp;
 using me.cqp.luohuaming.AbyssUploader.Sdk.Cqp.EventArgs;
 using System.IO;
 using System;
+using Newtonsoft.Json;
 
 namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
 {
@@ -31,14 +32,24 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
             APIResult apiResult = QueryInfo.QueryMemoryFieldInfo();
             if (apiResult.IsSuccess)
             {
-                APIResult.Info abyssInfo = apiResult.Data as APIResult.Info;
+                APIResult.Info info = null;
+                try
+                {
+                    info = JsonConvert.DeserializeObject<APIResult.Info>(apiResult.Data.ToString());
+                }
+                catch { }
+                if (info == null)
+                {
+                    sendText.MsgToSend.Add("消息解析失败");
+                    return result;
+                }
                 string path = Path.Combine(MainSave.ImageDirectory, "AbyssUploader", $"{apiResult.Token}.png");
                 if (!File.Exists(path))
                 {
                     Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "AbyssUploader"));
-                    File.WriteAllBytes(path, Convert.FromBase64String(abyssInfo.PicBase64));
+                    File.WriteAllBytes(path, Convert.FromBase64String(info.PicBase64));
                 }
-                sendText.MsgToSend.Add($"战场慢报[{abyssInfo.UploadTime:G} {abyssInfo.UploadTime:ddd}]\n上传者{abyssInfo.UploaderName}");
+                sendText.MsgToSend.Add($"战场慢报[{info.UploadTime:G} {info.UploadTime:ddd}]\n上传者{info.UploaderName}");
                 sendText.MsgToSend.Add(CQApi.CQCode_Image($"AbyssUploader\\{apiResult.Token}.png").ToString());
             }
             else

@@ -14,6 +14,7 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos.API
             public string UploaderName { get; set; }
             public DateTime UploadTime { get; set; }
             public string PicBase64 { get; set; }
+            public long Uploader { get; set; }
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using me.cqp.luohuaming.AbyssUploader.PublicInfos.API;
 using me.cqp.luohuaming.AbyssUploader.Sdk.Cqp;
+using me.cqp.luohuaming.AbyssUploader.Sdk.Cqp.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading;
 using WebSocketSharp;
 
@@ -60,12 +62,18 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
         {
             MainSave.CQLog.Info("收到广播", "获取到深渊广播信息，开始发送消息");
             Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "AbyssUploader"));
-            string filename = $"{result.Token}.jpg";
-            APIResult.Info abyssInfo = result.Data as APIResult.Info;
-            File.WriteAllBytes(Path.Combine(MainSave.ImageDirectory, "AbyssUploader", filename), Convert.FromBase64String(abyssInfo.PicBase64));
+            string filename = $"{result.Token}.png";
+            APIResult.Info info = null;
+            try
+            {
+                info = JsonConvert.DeserializeObject<APIResult.Info>(result.Data.ToString());
+            }
+            catch { }
+            if (info == null) return;
+            File.WriteAllBytes(Path.Combine(MainSave.ImageDirectory, "AbyssUploader", filename), Convert.FromBase64String(info.PicBase64));
             foreach (var item in Config.EnableGroup.OrderBy(x => Guid.NewGuid().ToString()))
             {
-                MainSave.CQApi.SendGroupMessage(item, $"深渊慢报[{abyssInfo.UploadTime:G} {abyssInfo.UploadTime:ddd}]\n上传者{abyssInfo.UploaderName}");
+                MainSave.CQApi.SendGroupMessage(item, $"深渊慢报[{info.UploadTime:G} {info.UploadTime:ddd}]\n上传者{info.UploaderName}");
                 MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image($"AbyssUploader\\{filename}"));
                 Thread.Sleep(5 * 1000);
             }
@@ -75,12 +83,19 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
         {
             MainSave.CQLog.Info("收到广播", "获取到战场广播信息，开始发送消息");
             Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "AbyssUploader"));
-            string filename = $"{result.Token}.jpg";
-            APIResult.Info abyssInfo = result.Data as APIResult.Info;
-            File.WriteAllBytes(Path.Combine(MainSave.ImageDirectory, "AbyssUploader", filename), Convert.FromBase64String(abyssInfo.PicBase64));
+            string filename = $"{result.Token}.png";
+            APIResult.Info info = null;
+            try
+            {
+                info = JsonConvert.DeserializeObject<APIResult.Info>(result.Data.ToString());
+            }
+            catch { }
+            if (info == null) return;
+
+            File.WriteAllBytes(Path.Combine(MainSave.ImageDirectory, "AbyssUploader", filename), Convert.FromBase64String(info.PicBase64));
             foreach (var item in Config.EnableGroup.OrderBy(x => Guid.NewGuid().ToString()))
             {
-                MainSave.CQApi.SendGroupMessage(item, $"战场慢报[{abyssInfo.UploadTime:G} {abyssInfo.UploadTime:ddd}]\n上传者{abyssInfo.UploaderName}");
+                MainSave.CQApi.SendGroupMessage(item, $"战场慢报[{info.UploadTime:G} {info.UploadTime:ddd}]\n上传者{info.UploaderName}");
                 MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image($"AbyssUploader\\{filename}"));
                 Thread.Sleep(5 * 1000);
             }

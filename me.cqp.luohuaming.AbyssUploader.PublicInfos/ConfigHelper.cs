@@ -86,7 +86,7 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
 
         public static void InitConfig()
         {
-            Config.WebSocketURL = GetConfig("WebSocketURL", "https://abyss.hellobaka.xyz/ws");
+            Config.WebSocketURL = GetConfig("WebSocketURL", "http://abyss.hellobaka.xyz/ws");
             Config.ReconnectTimeout = GetConfig("ReconnectTimeout", 3000);
             Config.HeartBeatTimeout = GetConfig("HeartBeatTimeout", 30000);
             Config.APIWaitTimeout = GetConfig("APIWaitTimeout", 10000);
