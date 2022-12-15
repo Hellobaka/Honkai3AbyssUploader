@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using me.cqp.luohuaming.AbyssUploader.Sdk.Cqp.EventArgs;
 using me.cqp.luohuaming.AbyssUploader.PublicInfos;
+using me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions;
 
 namespace me.cqp.luohuaming.AbyssUploader.Code
 {
@@ -19,6 +20,18 @@ namespace me.cqp.luohuaming.AbyssUploader.Code
             try
             {
                 if (Config.EnableGroup.Any(x => x == e.FromGroup) is false) return result;
+                if(UploadAbyss.DelayUploadList.Contains((e.FromGroup, e.FromQQ)))
+                {
+                    result.Result = true;
+                    UploadAbyss.DelayUploadImage(e);
+                    return result;
+                }
+                if(UploadMemoryField.DelayUploadList.Contains((e.FromGroup, e.FromQQ)))
+                {
+                    result.Result = true;
+                    UploadMemoryField.DelayUploadImage(e);
+                    return result;
+                }
                 foreach (var item in MainSave.Instances.Where(item => item.Judge(e.Message.Text)))
                 {
                     return item.Progress(e);

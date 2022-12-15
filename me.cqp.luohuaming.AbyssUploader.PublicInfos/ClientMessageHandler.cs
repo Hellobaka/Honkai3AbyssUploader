@@ -53,20 +53,20 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
                     Thread.Sleep(100);
                 }
             }
-            return null;
+            return new APIResult { IsSuccess = false, Message = "Timeout" };
         }
 
         private static void BoardcastAbyss(APIResult result)
         {
             MainSave.CQLog.Info("收到广播", "获取到深渊广播信息，开始发送消息");
             Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "AbyssUploader"));
-            string filename = $"{DateTime.Now:yyyyMMddHHmmss}.jpg";
+            string filename = $"{result.Token}.jpg";
             APIResult.Info abyssInfo = result.Data as APIResult.Info;
             File.WriteAllBytes(Path.Combine(MainSave.ImageDirectory, "AbyssUploader", filename), Convert.FromBase64String(abyssInfo.PicBase64));
             foreach (var item in Config.EnableGroup.OrderBy(x => Guid.NewGuid().ToString()))
             {
                 MainSave.CQApi.SendGroupMessage(item, $"深渊慢报[{abyssInfo.UploadTime:G} {abyssInfo.UploadTime:ddd}]\n上传者{abyssInfo.UploaderName}");
-                MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image($"AbyssUploader\\filename"));
+                MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image($"AbyssUploader\\{filename}"));
                 Thread.Sleep(5 * 1000);
             }
         }
@@ -75,13 +75,13 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
         {
             MainSave.CQLog.Info("收到广播", "获取到战场广播信息，开始发送消息");
             Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "AbyssUploader"));
-            string filename = $"{DateTime.Now:yyyyMMddHHmmss}.jpg";
+            string filename = $"{result.Token}.jpg";
             APIResult.Info abyssInfo = result.Data as APIResult.Info;
             File.WriteAllBytes(Path.Combine(MainSave.ImageDirectory, "AbyssUploader", filename), Convert.FromBase64String(abyssInfo.PicBase64));
             foreach (var item in Config.EnableGroup.OrderBy(x => Guid.NewGuid().ToString()))
             {
                 MainSave.CQApi.SendGroupMessage(item, $"战场慢报[{abyssInfo.UploadTime:G} {abyssInfo.UploadTime:ddd}]\n上传者{abyssInfo.UploaderName}");
-                MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image($"AbyssUploader\\filename"));
+                MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image($"AbyssUploader\\{filename}"));
                 Thread.Sleep(5 * 1000);
             }
         }
