@@ -9,6 +9,7 @@ using me.cqp.luohuaming.AbyssUploader.Sdk.Cqp.Interface;
 using me.cqp.luohuaming.AbyssUploader.PublicInfos;
 using System.Reflection;
 using System.IO;
+using System.Threading;
 
 namespace me.cqp.luohuaming.AbyssUploader.Code
 {
@@ -39,7 +40,7 @@ namespace me.cqp.luohuaming.AbyssUploader.Code
                     }
                 }
                 ConfigHelper.InitConfig();
-                MainSave.InitClient();
+                new Thread(MainSave.InitClient).Start();
             }
             catch(Exception exc)
             {
