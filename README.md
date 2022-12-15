@@ -15,6 +15,20 @@
 - 上传深渊快报：上传当期深渊信息
 - 上传战场快报：上传当期战场信息
 
+## 配置
+位于数据目录下`me.cqp.luohuaming.AbyssUploader\Config.json`，配置需重载后生效
+|键|默认值|含义|
+|----|----|----|
+|WebSocketURL|ws://abyss.hellobaka.xyz/ws|消息服务器Websocket|
+|ReconnectTimeout|3000|重连等待时长|
+|HeartBeatTimeout|30000|心跳等待时长|
+|APIWaitTimeout|10000|调用等待时长|
+|EnableGroup| |启用的群，使用`|`分割|
+|QueryAbyssOrder|深渊快报|查询深渊的指令|
+|QueryMemoryFieldOrder|战场快报|查询战场的指令|
+|UploadAbyssOrder|上传深渊快报|上传深渊的指令|
+|UploadMemoryFieldOrder|上传战场快报|上传战场的指令|
+
 ## 问题
 由于性质类似公共留言板，不可避免会出现有人想要发送不合适的消息，由于本服务现在是试行阶段，没有对应的规制手段，希望使用本服务的大家能够只上传游戏内截图
 
