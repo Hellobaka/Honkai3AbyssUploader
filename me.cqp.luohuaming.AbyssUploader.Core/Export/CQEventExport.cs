@@ -136,6 +136,18 @@ namespace me.cqp.luohuaming.AbyssUploader.App.Export
 				Event_eventStartupHandler += AppData.UnityContainer.Resolve<ICQStartup> ("酷Q启动事件").CQStartup;	
 			}	
 			
+			/*	
+			 * Id: 1002	
+			 * Type: 1002	
+			 * Name: 酷Q退出事件	
+			 * Function: _eventExit	
+			 * Priority: 30000	
+			 */	
+			if (AppData.UnityContainer.IsRegistered<ICQExit> ("酷Q退出事件"))	
+			{	
+				Event_eventExitHandler += AppData.UnityContainer.Resolve<ICQExit> ("酷Q退出事件").CQExit;	
+			}	
+			
 		}	
 		#endregion	
 		
@@ -201,6 +213,27 @@ namespace me.cqp.luohuaming.AbyssUploader.App.Export
 			{	
 				CQStartupEventArgs args = new CQStartupEventArgs (AppData.CQApi, AppData.CQLog, 1001, 1001, "酷Q启动事件", "_eventStartup", 30000);	
 				Event_eventStartupHandler (typeof (CQEventExport), args);	
+			}	
+			return 0;	
+		}	
+		
+		/// <summary>	
+		/// 事件回调, 以下是对应 Json 文件的信息	
+		/// <para>Id: 1002</para>	
+		/// <para>Type: 1002</para>	
+		/// <para>Name: 酷Q退出事件</para>	
+		/// <para>Function: _eventExit</para>	
+		/// <para>Priority: 30000</para>	
+		/// <para>IsRegex: False</para>	
+		/// </summary>	
+		public static event EventHandler<CQExitEventArgs> Event_eventExitHandler;	
+		[DllExport (ExportName = "_eventExit", CallingConvention = CallingConvention.StdCall)]	
+		public static int Event_eventExit ()	
+		{	
+			if (Event_eventExitHandler != null)	
+			{	
+				CQExitEventArgs args = new CQExitEventArgs (AppData.CQApi, AppData.CQLog, 1002, 1002, "酷Q退出事件", "_eventExit", 30000);	
+				Event_eventExitHandler (typeof (CQEventExport), args);	
 			}	
 			return 0;	
 		}	

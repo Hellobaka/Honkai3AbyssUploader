@@ -23,7 +23,7 @@ namespace me.cqp.luohuaming.AbyssUploader.Core
 			unityContainer.RegisterType<IGroupMessage, MainExport>("群消息处理");
 			unityContainer.RegisterType<IPrivateMessage, MainExport>("私聊消息处理");
 			unityContainer.RegisterType<ICQStartup, Event_StartUp>("酷Q启动事件");
-
+			unityContainer.RegisterType<ICQExit, Event_Exit>("酷Q退出事件");
 		}
 	}
 }

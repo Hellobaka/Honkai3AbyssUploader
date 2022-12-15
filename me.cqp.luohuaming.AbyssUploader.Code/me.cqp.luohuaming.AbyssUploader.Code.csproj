@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Event_PrivateMessage.cs" />
     <Compile Include="Event_GroupMessage.cs" />
+    <Compile Include="Event_Exit.cs" />
     <Compile Include="Event_StartUp.cs" />
     <Compile Include="OrderFunctions\UploadMemoryField.cs" />
     <Compile Include="OrderFunctions\QueryMemoryField.cs" />

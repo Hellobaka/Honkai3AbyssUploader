@@ -27,6 +27,13 @@
 			"name": "酷Q启动事件",
 			"priority": 30000,
 			"function": "_eventStartup"
+		},
+		{
+			"id": 1002,
+			"type": 1002,
+			"name": "酷Q退出事件",
+			"priority": 30000,
+			"function": "_eventExit"
 		}
 	],
 	"menu": [
