@@ -16,8 +16,10 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
         public static string AppDirectory { get; set; }
         public static string ImageDirectory { get; set; }
         public static WebSocket WebSocketClient { get; set; }
+        public static bool ExitFlag { get; set; } = false;
         public static void InitClient()
         {
+            if (ExitFlag) return;
             if (WebSocketClient != null)
             {
                 WebSocketClient.Close();
