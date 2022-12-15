@@ -9,5 +9,9 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
         public static int HeartBeatTimeout { get; set; }
         public static int APIWaitTimeout { get; set; }
         public static List<long> EnableGroup { get; set; } = new List<long>();
+        public static string QueryAbyssOrder { get; set; }
+        public static string QueryMemoryFieldOrder { get; set; }
+        public static string UploadAbyssOrder { get; set; }
+        public static string UploadMemoryFieldOrder { get; set; }
     }
 }

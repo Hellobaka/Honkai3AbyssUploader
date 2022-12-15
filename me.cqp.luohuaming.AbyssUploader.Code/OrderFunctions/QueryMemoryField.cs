@@ -12,7 +12,7 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
     {
         public bool ImplementFlag { get; set; } = true;
         
-        public string GetOrderStr() => "战场快报";
+        public string GetOrderStr() => Config.QueryMemoryFieldOrder;
 
         public bool Judge(string destStr) => destStr.Replace("＃", "#").StartsWith(GetOrderStr());//这里判断是否能触发指令
 

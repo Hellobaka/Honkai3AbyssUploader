@@ -13,7 +13,7 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
         public static List<(long, long)> DelayUploadList { get; set; } = new List<(long, long)>();
         public bool ImplementFlag { get; set; } = true;
 
-        public string GetOrderStr() => "上传深渊快报";
+        public string GetOrderStr() => Config.UploadAbyssOrder;
 
         public bool Judge(string destStr) => destStr.Replace("＃", "#").StartsWith(GetOrderStr());
 

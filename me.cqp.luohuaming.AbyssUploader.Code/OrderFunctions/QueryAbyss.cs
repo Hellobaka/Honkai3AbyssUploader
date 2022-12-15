@@ -12,7 +12,7 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
     {
         public bool ImplementFlag { get; set; } = true;
         
-        public string GetOrderStr() => "深渊快报";
+        public string GetOrderStr() => Config.QueryAbyssOrder;
 
         public bool Judge(string destStr) => destStr.Replace("＃", "#").StartsWith(GetOrderStr());
 
