@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
 {
     public class UploadAbyss : IOrderModel
     {
-        public static List<(long, long)> DelayUploadList { get; set; } = new List<(long, long)>();
+        public static Dictionary<(long, long), APIResult.Info> DelayUploadList { get; set; } = new Dictionary<(long, long), APIResult.Info>();
         public bool ImplementFlag { get; set; } = true;
 
         public string GetOrderStr() => Config.UploadAbyssOrder;
@@ -29,20 +30,9 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
                 SendID = e.FromGroup,
             };
             result.SendObject.Add(sendText);
-            //if (UploadInfo.QueryUploadAbyssState().IsSuccess is false)
-            //{
-            //    sendText.MsgToSend.Add("本周期已有用户上传了深渊快报，若想查询请输入 深渊快报。若想重复上传，请重新输入上传指令，不过不会进行推送。");
-            //    return result;
-            //}
-            if (e.Message.CQCodes.Any(x => x.IsImageCQCode))
-            {
-                DelayUploadImage(e);
-            }
-            else
-            {
-                DelayUploadList.Add((e.FromGroup, e.FromQQ));
-                sendText.MsgToSend.Add("请在下条消息发送图片");
-            }
+
+            DelayUploadList.Add((e.FromGroup, e.FromQQ), new APIResult.Info());
+            sendText.MsgToSend.Add("请在下条消息发送图片");
             return result;
         }
 
@@ -58,12 +48,42 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
 
         public static void DelayUploadImage(CQGroupMessageEventArgs e)
         {
+            var info = DelayUploadList[(e.FromGroup, e.FromQQ)];
+
             var img = e.Message.CQCodes.FirstOrDefault(x => x.IsImageCQCode);
             if (img == null) return;
-            DelayUploadList.Remove((e.FromGroup, e.FromQQ));
             string imgPath = e.CQApi.ReceiveImage(img);
             string nickName = e.FromGroup.GetGroupMemberInfo(e.FromQQ).Nick;
-            var apiResult = UploadInfo.UploadAbyssInfo(Convert.ToBase64String(File.ReadAllBytes(imgPath)), nickName, e.FromQQ.Id);
+
+            info.PicBase64 = Convert.ToBase64String(File.ReadAllBytes(imgPath));
+            info.Uploader = e.FromQQ;
+            info.UploaderName = nickName;
+
+            if(Config.AbyssRemarkEnable)
+            {
+                e.FromGroup.SendGroupMessage("如果有需要备注的请在接下来回复，若没有请回复“无”");
+            }
+            else
+            {
+                CallUpload(e);
+            }
+        }
+
+        public static void DelayAddRemark(CQGroupMessageEventArgs e)
+        {
+            if (e.Message.Text.Trim() != "无")
+            {
+                var info = DelayUploadList[(e.FromGroup, e.FromQQ)];
+                info.Remark = Regex.Replace(e.Message, "\\[CQ:.*?\\]", "");
+            }
+            CallUpload(e);
+        }
+
+        public static void CallUpload(CQGroupMessageEventArgs e)
+        {
+            var info = DelayUploadList[(e.FromGroup, e.FromQQ)];
+            DelayUploadList.Remove((e.FromGroup, e.FromQQ));
+            var apiResult = UploadInfo.UploadAbyssInfo(info.PicBase64, info.UploaderName, info.Uploader, info.Remark);
             if (apiResult.IsSuccess)
             {
                 e.FromGroup.SendGroupMessage("上传成功，感谢你的贡献");

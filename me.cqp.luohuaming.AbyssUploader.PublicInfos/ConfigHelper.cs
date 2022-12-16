@@ -104,6 +104,8 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
             Config.QueryMemoryFieldOrder = GetConfig("QueryMemoryFieldOrder", "战场快报");
             Config.UploadAbyssOrder = GetConfig("UploadAbyssOrder", "上传深渊快报");
             Config.UploadMemoryFieldOrder = GetConfig("UploadMemoryFieldOrder", "上传战场快报");
+            Config.AbyssRemarkEnable = GetConfig("AbyssRemarkEnable", false);
+            Config.MemoryFieldRemarkEnable = GetConfig("MemoryFieldRemarkEnable", false);
         }
     }
 }

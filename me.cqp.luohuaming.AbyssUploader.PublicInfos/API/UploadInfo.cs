@@ -27,7 +27,8 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos.API
             return ClientMessageHandler.WaitResult(token);
         }
 
-        public static APIResult UploadAbyssInfo(string base64, string name, long qq)
+
+        public static APIResult UploadAbyssInfo(string base64, string name, long qq, string remark)
         {
             string token = Guid.NewGuid().ToString();
             APIResult request = new APIResult
@@ -39,7 +40,8 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos.API
                     UploaderName = name,
                     UploadTime = DateTime.Now,
                     PicBase64 = base64,
-                    Uploader = qq
+                    Uploader = qq,
+                    Remark = remark
                 }.ToJson()
             };
             MainSave.WebSocketClient.Send(request.ToJson());

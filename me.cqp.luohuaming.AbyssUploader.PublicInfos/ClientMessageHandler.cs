@@ -73,7 +73,9 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
             File.WriteAllBytes(Path.Combine(MainSave.ImageDirectory, "AbyssUploader", filename), Convert.FromBase64String(info.PicBase64));
             foreach (var item in Config.EnableGroup.OrderBy(x => Guid.NewGuid().ToString()))
             {
-                MainSave.CQApi.SendGroupMessage(item, $"深渊慢报[{info.UploadTime:G} {info.UploadTime:ddd}]\n上传者{info.UploaderName}");
+                MainSave.CQApi.SendGroupMessage(item, $"深渊慢报[{info.ID}][{info.UploadTime:G} {info.UploadTime:ddd}]" +
+                    $"\n上传者: {info.UploaderName}" +
+                    $"{(string.IsNullOrEmpty(info.Remark) ? "" : $"\n备注: {info.Remark}")}");
                 MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image($"AbyssUploader\\{filename}"));
                 Thread.Sleep(5 * 1000);
             }
@@ -95,7 +97,9 @@ namespace me.cqp.luohuaming.AbyssUploader.PublicInfos
             File.WriteAllBytes(Path.Combine(MainSave.ImageDirectory, "AbyssUploader", filename), Convert.FromBase64String(info.PicBase64));
             foreach (var item in Config.EnableGroup.OrderBy(x => Guid.NewGuid().ToString()))
             {
-                MainSave.CQApi.SendGroupMessage(item, $"战场慢报[{info.UploadTime:G} {info.UploadTime:ddd}]\n上传者{info.UploaderName}");
+                MainSave.CQApi.SendGroupMessage(item, $"战场慢报[{info.ID}][{info.UploadTime:G} {info.UploadTime:ddd}]" +
+                    $"\n上传者: {info.UploaderName}" +
+                    $"{(string.IsNullOrEmpty(info.Remark) ? "" : $"\n备注: {info.Remark}")}");
                 MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image($"AbyssUploader\\{filename}"));
                 Thread.Sleep(5 * 1000);
             }
