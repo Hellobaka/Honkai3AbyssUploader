@@ -23,7 +23,7 @@
 |ReconnectTimeout|3000|重连等待时长|
 |HeartBeatTimeout|30000|心跳等待时长|
 |APIWaitTimeout|10000|调用等待时长|
-|EnableGroup| |启用的群，使用`|`分割|
+|EnableGroup| |启用的群，使用`\|`分割|
 |QueryAbyssOrder|深渊快报|查询深渊的指令|
 |QueryMemoryFieldOrder|战场快报|查询战场的指令|
 |UploadAbyssOrder|上传深渊快报|上传深渊的指令|
