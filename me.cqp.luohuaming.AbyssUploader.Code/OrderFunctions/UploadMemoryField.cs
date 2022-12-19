@@ -74,7 +74,7 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
         {
             var info = DelayUploadList[(e.FromGroup, e.FromQQ)];
             DelayUploadList.Remove((e.FromGroup, e.FromQQ));
-            var apiResult = UploadInfo.UploadAbyssInfo(info.PicBase64, info.UploaderName, info.Uploader, info.Remark);
+            var apiResult = UploadInfo.UploadMemoryField(info.PicBase64, info.UploaderName, info.Uploader, info.Remark);
             if (apiResult.IsSuccess)
             {
                 e.FromGroup.SendGroupMessage("上传成功，感谢你的贡献");
