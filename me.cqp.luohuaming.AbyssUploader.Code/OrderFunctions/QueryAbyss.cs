@@ -48,7 +48,9 @@ namespace me.cqp.luohuaming.AbyssUploader.Code.OrderFunctions
                     Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "AbyssUploader"));
                     File.WriteAllBytes(path, Convert.FromBase64String(info.PicBase64));
                 }
-                sendText.MsgToSend.Add($"深渊慢报[{info.UploadTime:G} {info.UploadTime:ddd}]\n上传者{info.UploaderName}");
+                sendText.MsgToSend.Add($"深渊慢报[{info.ID}][{info.UploadTime:G} {info.UploadTime:ddd}]" +
+                    $"\n上传者: {info.UploaderName}" +
+                    $"{(string.IsNullOrEmpty(info.Remark) ? "" : $"\n备注: {info.Remark}")}");
                 sendText.MsgToSend.Add(CQApi.CQCode_Image($"AbyssUploader\\{apiResult.Token}.png").ToString());
             }
             else
